@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #1b262c 0%, #0f4c75 55%, #3282b8 100%);
+    }
+
+    .dashboard-container {
+        display: flex;
+        justify-content: center;
+        padding: 56px 18px 80px;
+        min-height: calc(100vh - 120px);
+    }
+
+    .dashboard-card {
+        width: 100%;
+        max-width: 860px;
+        background: rgba(255, 255, 255, 0.94);
+        border-radius: 18px;
+        box-shadow: 0 22px 52px rgba(0, 0, 0, 0.24);
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        padding: 34px 38px 42px;
+        backdrop-filter: blur(12px);
+    }
+
+    .dashboard-card h2 {
+        margin: 0 0 10px;
+        font-size: 2.2rem;
+        text-align: center;
+        letter-spacing: 0.45px;
+    }
+
+    .dashboard-card p.description {
+        margin: 0 0 24px;
+        text-align: center;
+        color: rgba(33, 44, 60, 0.78);
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 18px;
+        margin: 22px 0 32px;
+    }
+
+    .metric-card {
+        border-radius: 16px;
+        padding: 16px 18px;
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(34, 39, 56, 0.16);
+        box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
+        text-align: center;
+    }
+
+    .metric-card h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: rgba(36, 47, 66, 0.9);
+        letter-spacing: 0.25px;
+    }
+
+    .metric-card p {
+        margin: 10px 0 0;
+        font-size: 2.1rem;
+        font-weight: 700;
+        color: rgba(23, 33, 48, 0.95);
+    }
+
+    .metric-note {
+        text-align: center;
+        margin-top: 12px;
+        color: rgba(34, 46, 65, 0.7);
+    }
+
+    .chart-wrapper {
+        margin-top: 10px;
+        padding: 22px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.82);
+        border: 1px solid rgba(34, 39, 56, 0.14);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+    }
+
+    .error-message {
+        margin-top: 24px;
+        padding: 16px 18px;
+        border-radius: 14px;
+        background: rgba(237, 93, 93, 0.18);
+        border: 1px solid rgba(237, 93, 93, 0.38);
+        color: #5a1212;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    @media (max-width: 560px) {
+        .dashboard-card {
+            padding: 28px 18px 30px;
+        }
+    }
+</style>
+
+<div class="dashboard-container">
+    <div class="dashboard-card">
+        <h2>📈 Model Performance Dashboard</h2>
+        <p class="description">A quick overview of how the message classifier performs on the evaluation dataset.</p>
+
+        {% if error_message %}
+        <div class="error-message">
+            {{ error_message }}
+        </div>
+        {% else %}
+
+        <div class="metric-grid">
+            <div class="metric-card">
+                <h3>Accuracy</h3>
+                <p>{{ (accuracy * 100) | round(2) if accuracy is not none else '—' }}%</p>
+            </div>
+            <div class="metric-card">
+                <h3>Precision</h3>
+                <p>{{ (precision * 100) | round(2) if precision is not none else '—' }}%</p>
+            </div>
+            <div class="metric-card">
+                <h3>Recall</h3>
+                <p>{{ (recall * 100) | round(2) if recall is not none else '—' }}%</p>
+            </div>
+            <div class="metric-card">
+                <h3>F1 Score</h3>
+                <p>{{ (f1 * 100) | round(2) if f1 is not none else '—' }}%</p>
+            </div>
+        </div>
+
+        <div class="chart-wrapper">
+            <canvas id="performanceChart" height="140"></canvas>
+        </div>
+
+        <p class="metric-note">These metrics are computed using the evaluation dataset included in <code>backend/data/dataset.csv</code>.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    window.dashboardData = {
+        accuracy: {{ accuracy if accuracy is not none else 'null' }},
+        precision: {{ precision if precision is not none else 'null' }},
+        recall: {{ recall if recall is not none else 'null' }},
+        f1: {{ f1 if f1 is not none else 'null' }}
+    };
+</script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

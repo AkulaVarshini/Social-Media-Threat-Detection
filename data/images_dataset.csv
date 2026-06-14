@@ -1,0 +1,16 @@
+image_path,label,category
+/dataset/safe/image_001.jpg,safe,normal_activity
+/dataset/safe/image_002.jpg,safe,normal_activity
+/dataset/safe/image_003.jpg,safe,normal_activity
+/dataset/safe/image_004.jpg,safe,normal_activity
+/dataset/safe/image_005.jpg,safe,normal_activity
+/dataset/predator/image_001.jpg,predator,suspicious_behavior
+/dataset/predator/image_002.jpg,predator,suspicious_behavior
+/dataset/predator/image_003.jpg,predator,suspicious_behavior
+/dataset/predator/image_004.jpg,predator,suspicious_behavior
+/dataset/predator/image_005.jpg,predator,suspicious_behavior
+/dataset/harassment/image_001.jpg,harassment,inappropriate_content
+/dataset/harassment/image_002.jpg,harassment,inappropriate_content
+/dataset/harassment/image_003.jpg,harassment,inappropriate_content
+/dataset/harassment/image_004.jpg,harassment,inappropriate_content
+/dataset/harassment/image_005.jpg,harassment,inappropriate_content

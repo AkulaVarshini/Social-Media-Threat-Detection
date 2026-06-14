@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CyberGuard AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+</head>
+<body>
+
+<nav>
+    <h2>🛡 CyberGuard AI</h2>
+</nav>
+
+<section class="hero">
+    <h1>AI-Based Detection of<br>
+        <span>Child Predators</span> & Cyber Harassers
+    </h1>
+
+    <p>Leveraging machine learning to detect grooming, harassment and abuse in real-time.</p>
+
+    <form action="/predict" method="POST">
+        <textarea name="message" placeholder="Paste social media message here..." required></textarea>
+        <button type="submit">Analyze Message →</button>
+    </form>
+</section>
+
+<section class="stats">
+    <div class="card">
+        <h2>92%</h2>
+        <p>Model Accuracy</p>
+    </div>
+    <div class="card">
+        <h2>4</h2>
+        <p>Threat Categories</p>
+    </div>
+    <div class="card">
+        <h2>&lt;2s</h2>
+        <p>Analysis Time</p>
+    </div>
+    <div class="card">
+        <h2>24/7</h2>
+        <p>Monitoring Ready</p>
+    </div>
+</section>
+
+<footer>
+    Major Project – Cyber Security Department <br>
+    Developed by Varshini
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero">
+    <h1>🛡️ CyberGuard AI - <span>Automated Social Media Threat Detection for Child Protection</span></h1>
+    <p>
+        Advanced AI-powered solution for analyzing social media messages and images
+        to detect grooming behavior, harassment, and predatory content in real-time.
+    </p>
+    <div class="btn-group">
+        <a href="/detect" class="btn btn-primary">📝 Analyze Text Message</a>
+        <a href="/detect_image" class="btn btn-success">🖼️ Analyze Image</a>
+    </div>
+</section>
+
+<section class="stats">
+    <div class="stat-box">
+        <h2>92%</h2>
+        <p>Model Accuracy</p>
+    </div>
+    <div class="stat-box">
+        <h2>3</h2>
+        <p>Classification Types</p>
+    </div>
+    <div class="stat-box">
+        <h2>&lt;2s</h2>
+        <p>Analysis Time</p>
+    </div>
+    <div class="stat-box">
+        <h2>24/7</h2>
+        <p>Always Available</p>
+    </div>
+</section>
+
+<section class="how-it-works">
+    <h2 style="text-align: center; margin-bottom: 40px;">🎯 Key Features</h2>
+
+    <div class="card-container">
+
+        <div class="card">
+            <h3>📝 Text Analysis</h3>
+            <p>Advanced NLP model analyzes social media messages and conversations to detect harmful language patterns and grooming behavior.</p>
+        </div>
+
+        <div class="card">
+            <h3>🖼️ Image Detection</h3>
+            <p>Deep learning-based image classification system identifies inappropriate or suspicious content in uploaded images.</p>
+        </div>
+
+        <div class="card">
+            <h3>⚠️ Threat Detection</h3>
+            <p>Identifies predatory indicators, harassment, grooming tactics, and abusive content with high confidence scoring.</p>
+        </div>
+
+        <div class="card">
+            <h3>🎯 Child Safety Focus</h3>
+            <p>Purpose-built specifically to protect minors from online predators and cyber harassers with real-time alerts.</p>
+        </div>
+
+        <div class="card">
+            <h3>📊 Dashboard Analytics</h3>
+            <p>Comprehensive dashboard showing analysis history, threat statistics, and risk assessments over time.</p>
+        </div>
+
+        <div class="card">
+            <h3>🔐 Secure & Private</h3>
+            <p>User authentication, encrypted data handling, and compliance with privacy standards for sensitive information.</p>
+        </div>
+
+    </div>
+</section>
+
+<section style="background: white; padding: 40px; border-radius: 10px; margin-top: 40px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+    <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">📋 Classification Categories</h2>
+    
+    <div class="card-container">
+        <div class="card" style="border-left-color: #27ae60;">
+            <h3 style="color: #27ae60;">✓ Safe</h3>
+            <p>Content that is appropriate and contains no indicators of predatory behavior or harassment. Normal, healthy interactions.</p>
+        </div>
+
+        <div class="card" style="border-left-color: #e74c3c;">
+            <h3 style="color: #e74c3c;">⚠️ Predator</h3>
+            <p>Content showing potential grooming tactics, manipulation, or predatory behavior targeting minors. Requires immediate attention.</p>
+        </div>
+
+        <div class="card" style="border-left-color: #f39c12;">
+            <h3 style="color: #f39c12;">⚠️ Harassment</h3>
+            <p>Content involving bullying, sexual harassment, threats, or other forms of harmful behavior. Escalate as needed.</p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

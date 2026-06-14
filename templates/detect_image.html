@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-wrapper">
+    <h2 style="text-align: center; margin-bottom: 10px;">🖼️ Image Analysis</h2>
+    <p style="text-align: center; color: #7f8c8d; margin-bottom: 30px;">Upload an image to analyze whether it contains safe content, predatory behavior, or harassment indicators.</p>
+
+  {% if error and not result %}
+    <div class="alert alert-error">
+        <strong>Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="image">Select Image File</label>
+            <div class="image-upload-area">
+                <input type="file" id="image" name="image" accept="image/png,image/jpeg,image/jpg,image/gif,image/bmp" required style="display: none;" onchange="previewImage(this)">
+                <label for="image" style="cursor: pointer; display: block;">
+                    <div style="font-size: 40px; margin-bottom: 10px;">📤</div>
+                    <div style="font-weight: 600; color: #2c3e50; margin-bottom: 5px;">Click to upload image</div>
+                    <div style="color: #7f8c8d; font-size: 0.9rem;">or drag and drop</div>
+                    <div style="color: #95a5a6; font-size: 0.8rem; margin-top: 10px;">Supported formats: PNG, JPG, GIF, BMP (Max 16MB)</div>
+                </label>
+                <div id="preview-container" style="margin-top: 20px;">
+                    <img id="preview-image" style="display: none; max-width: 300px; border-radius: 8px;">
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button type="submit" class="btn btn-primary" style="font-size: 1.1rem; padding: 15px 40px;">
+                ✓ Analyze Image
+            </button>
+        </div>
+    </form>
+
+    {% if result %}
+    <div class="result prediction-{{ result|lower }}">
+        <h3>📊 Analysis Result</h3>
+
+        {% if alert_message %}
+        <div class="result-alert {% if result == 'Safe' %}safe{% elif result == 'Harassment' %}harassment{% elif result == 'Predator' %}predator{% endif %}">
+            {{ alert_message }}
+        </div>
+        {% endif %}
+
+        {% if image_filename %}
+        <div class="result-image" style="text-align:center; margin-bottom: 18px;">
+            <img src="{{ url_for('static', filename='uploads/' + image_filename) }}" alt="Uploaded image" style="max-width: 320px; border-radius: 14px; box-shadow: 0 10px 20px rgba(0,0,0,0.15);">
+        </div>
+        {% endif %}
+
+        <div class="result-item">
+            <span class="result-label">Classification:</span>
+            <span class="result-value">
+                <span class="result-box {% if result == 'Safe' %}safe{% elif result == 'Harassment' %}harassment{% elif result == 'Predator' %}predator{% endif %}">
+                    {% if result == "Safe" %}✓{% elif result == "Predator" %}⚠{% elif result == "Harassment" %}⚠{% endif %}
+                    {{ result }}
+                </span>
+            </span>
+        </div>
+
+        <div class="result-item">
+            <span class="result-label">Confidence Level:</span>
+            <span class="result-value">{{ confidence }}%</span>
+        </div>
+
+        <div class="result-item">
+            <span class="result-label">Risk Assessment:</span>
+            <span class="result-value risk-{{ risk|lower }}">
+                {% if risk == "High" %}
+                    🔴 {{ risk }} Risk
+                {% elif risk == "Medium" %}
+                    🟡 {{ risk }} Risk
+                {% elif risk == "Low" %}
+                    🟢 {{ risk }} Risk
+                {% endif %}
+            </span>
+        </div>
+
+        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ecf0f1;">
+            <h4 style="color: #2c3e50; margin-bottom: 10px;">📋 Interpretation:</h4>
+            <p style="color: #7f8c8d;">
+                {% if result == "Safe" %}
+                    ✓ The image appears to contain safe, appropriate content with no indicators of predatory behavior or harassment.
+                {% elif result == "Predator" %}
+                    ⚠️ The image contains potential indicators of predatory behavior. Please review carefully and take appropriate action.
+                {% elif result == "Harassment" %}
+                    ⚠️ The image may contain harassment or inappropriate content. Review and escalate if necessary.
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .image-upload-area {
+        border: 2px dashed #3498db;
+        padding: 40px;
+        border-radius: 10px;
+        text-align: center;
+        background: #f8f9fa;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .image-upload-area:hover {
+        border-color: #2980b9;
+        background: #ecf0f1;
+        transform: scale(1.01);
+    }
+
+    .image-upload-area:focus-within {
+        border-color: #27ae60;
+        background: #d5f4e6;
+    }
+</style>
+
+<script>
+    function previewImage(input) {
+        const previewImg = document.getElementById('preview-image');
+        const file = input.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Drag and drop functionality
+    const uploadArea = document.querySelector('.image-upload-area');
+    const fileInput = document.getElementById('image');
+
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.style.borderColor = '#27ae60';
+        uploadArea.style.background = '#d5f4e6';
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.style.borderColor = '#3498db';
+        uploadArea.style.background = '#f8f9fa';
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.style.borderColor = '#3498db';
+        uploadArea.style.background = '#f8f9fa';
+        
+        fileInput.files = e.dataTransfer.files;
+        previewImage(fileInput);
+    });
+</script>
+{% endblock %}

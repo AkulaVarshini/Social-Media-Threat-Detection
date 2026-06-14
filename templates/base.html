@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGuard AI - Automated Social Media Threat Detection for Child Protection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav>
+    <div class="nav-brand">🛡️ CyberGuard AI</div>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/detect">📝 Analyze Text</a></li>
+        <li><a href="/detect_image">🖼️ Analyze Image</a></li>
+        <li><a href="/dashboard">📊 Dashboard</a></li>
+        <li><a href="/about">ℹ️ About</a></li>
+        <li><a href="/admin">⚙️ Admin</a></li>
+    </ul>
+    <div class="nav-right">
+        {% if current_user.is_authenticated %}
+            <span class="user-info">👤 {{ current_user.username }}</span>
+            <a href="/logout" class="logout-btn">Logout</a>
+        {% else %}
+            <a href="/login" class="auth-btn">Login</a>
+            <a href="/register" class="auth-btn">Register</a>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="container">
+    {% if session.get('_flashes') %}
+        {% for category, message in session.get('_flashes', []) %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+</div>
+
+<footer>
+    <p><strong>CyberGuard AI</strong> - Automated Social Media Threat Detection for Child Protection</p>
+    <p>Cyber Security Department Major Project</p>
+    <p>Developed by Varshini</p>
+</footer>
+
+</body>
+</html>
